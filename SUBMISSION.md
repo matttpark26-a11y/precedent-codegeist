@@ -74,7 +74,7 @@ Precedent is a Forge app (Forge-hosted, UI Kit) that integrates with **Jira** (i
 7. MCP: in Atlassian Administration → Apps → Sites → Connected apps → Precedent → Details → **Enable tools**. Then `claude mcp add --transport http precedent https://mcp.atlassian.com/forge/fd902470-28c1-4525-b50e-6206031739cc` and run `/mcp` to sign in.
 
 ## Links
-- Demo video: [YouTube, public, under 5 minutes]
+- Demo video: https://youtu.be/U6trTce-bEs
 - Code: https://github.com/matttpark26-a11y/precedent-codegeist
 
 ---
