@@ -79,6 +79,12 @@ export function createService(deps) {
     if (!text) throw new Error('Give me a proposal to check, or an issue key.');
     const all = await store.all();
     const res = checkProposal(text, all, { issueKeys: keys, limit: 8 });
+    // A decision made on this very issue is its outcome, not something the issue goes against.
+    if (issue) {
+      const own = res.conflicts.filter((r) => r.decision.issueKeys?.includes(issue.key));
+      res.conflicts = res.conflicts.filter((r) => !own.includes(r));
+      res.related.unshift(...own.map((r) => ({ ...r, verdict: 'related', confidence: 'low', reason: 'Decided on this issue.' })));
+    }
     const pack = async (r) => ({ ...(await view(r.decision)), verdict: r.verdict, confidence: r.confidence, reason: r.reason, evidence: r.evidence });
     const conflicts = await Promise.all(res.conflicts.map(pack));
     const aligned = await Promise.all(res.aligned.map(pack));

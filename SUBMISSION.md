@@ -13,7 +13,7 @@ Apps for Software Teams
 
 ## Bonus prizes entered
 - **Best Agents:** `rovo:agent` "Precedent" with six `rovo:action` tools.
-- **Best app with Atlassian MCP:** `rovo:mcp` module exposing the same six tools at `https://mcp.atlassian.com/forge/[app-id]`, demoed from Claude Code.
+- **Best app with Atlassian MCP:** `rovo:mcp` module exposing the same six tools at `https://mcp.atlassian.com/forge/fd902470-28c1-4525-b50e-6206031739cc`, demoed from Claude Code.
 - **Best Teamwork Graph integration:** `graph:connector` publishes every decision as an `atlassian:document` linked to its Jira issues (`issueIdOrKeys` associations), and reads linked pull requests back with the `jiraWorkItemLinkedExternalPullRequests` curated query.
 - **Best Marketplace published app:** [listing link or Marketplace review ticket link]
 
@@ -64,17 +64,18 @@ atlassian-forge, jira, rovo, rovo-agents, mcp, teamwork-graph, ui-kit, react, ja
 Precedent is a Forge app (Forge-hosted, UI Kit) that integrates with **Jira** (issue panel, global page, comment and issue-created triggers, REST), **Rovo** (`rovo:agent` + `rovo:action`), **Rovo MCP** (`rovo:mcp`) and the **Teamwork Graph** (`graph:connector` ingestion + curated-query reads).
 
 ## Testing instructions for judges
-1. Install: [installation link from the developer console → Distribution]
-2. Open project [KEY]. Issues BILL-1…BILL-6 hold the decision history. BILL-7…BILL-9 contradict it.
-3. Open **BILL-7** ("Migrate billing service to DynamoDB…"). The Precedent panel shows a *Revives a rejected option* warning citing the Postgres decision, and the issue has a warning comment.
+1. Install on your Jira site: https://developer.atlassian.com/console/install/fd902470-28c1-4525-b50e-6206031739cc?signature=AYABeCSZZUmeUYb6Ug4M5IylHiQAAAADAAdhd3Mta21zAEthcm46YXdzOmttczp1cy13ZXN0LTI6NzA5NTg3ODM1MjQzOmtleS83MDVlZDY3MC1mNTdjLTQxYjUtOWY5Yi1lM2YyZGNjMTQ2ZTcAuAECAQB4CxqLTo9l4lqXuFjNim1xJM%2Bp%2F3TVP9xHS2BrU5DRRucBmjurZiFADPMMuYpjBdIfXwAAAH4wfAYJKoZIhvcNAQcGoG8wbQIBADBoBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDIUjb8Ak11zjOZK62QIBEIA71VE2TpHwa2ge5C9KI%2Bn%2BBHtvu%2BSVw9fUZAGp2iqn9BFUvwDrLYZ6KiuAk1EEA1H1I6EDZiK7qMMZlm8AB2F3cy1rbXMAS2Fybjphd3M6a21zOmV1LXdlc3QtMTo3MDk1ODc4MzUyNDM6a2V5LzQ2MzBjZTZiLTAwYzMtNGRlMi04NzdiLTYyN2UyMDYwZTVjYwC4AQICAHi9bVMAkme4qVQX1fQHo6ePw3H40A7cGfz7yrmSfBWMXgH7BMqIjsFJ2W%2BSrPhMTf1uAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMPfO0J9C5umJen9suAgEQgDscwuMtGibdQ5PlQSwYWBvysHO3FzASa6lkQu3CInb8fqNxCNs6X0iUAPSdpY6HbPJUuBgqQ1Eo9lmSyQAHYXdzLWttcwBLYXJuOmF3czprbXM6dXMtZWFzdC0xOjcwOTU4NzgzNTI0MzprZXkvNmMxMjBiYTAtNGNkNS00OTg1LWI4MmUtNDBhMDQ5NTJjYzU3ALgBAgIAeDYASx0XCjkny4iLV6vz%2BKtEGSGT6kdt0QRpkn6D%2FlVEAf8D40AnPKIYKyRou%2FiYH1YAAAB%2BMHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxKjEiBx7v3Tdop3I4CARCAO%2F51s28yZxgW7PB%2B8KYVIHVQxONcrjK07Zkxu6sBo%2FFVkQfR1Bl2d6UnXfwPkzP8Q1P%2BRzymmnNUUfxXAgAAAAAMAAAQAAAAAAAAAAAAAAAAAPTCEI%2BxR1MTbdFcX68QzEr%2F%2F%2F%2F%2FAAAAAQAAAAAAAAAAAAAAAQAAADJJFiJ93I51rRfY60mTH1MVoYFYGqVHyUrTVB%2Brsz0VNBAmLjMdQQO%2Fb3Tt2ZwL2fVWJQE1nZ7%2FWL2o56tCsmOA%2BgA%3D&product=jira
+   (Precedent runs on Atlassian: no external servers, no egress.)
+2. Apps → **Decision Log** → **Settings** → pick any project → **Load demo data**. This creates 6 issues with a decision history and 3 new issues that go against it.
+3. Open the issue "Migrate billing service to DynamoDB…" and open Precedent from **View app actions** under the title. The Precedent panel shows a *Revives a rejected option* warning citing the Postgres decision, and the issue has a warning comment.
 4. On any issue, comment `DECISION: Use pnpm instead of npm for the monorepo` with a `Why:` line. Within a minute or two it appears in the panel and in the Decision Log.
 5. Apps → **Decision Log** → *Check an idea*: paste "Move invoice events from Kafka to SQS".
 6. Rovo Chat → agent **Precedent** → "What have we decided about the billing service?"
-7. MCP: [instructions + app ID; admin enables Tools first]
+7. MCP: in Atlassian Administration → Apps → Sites → Connected apps → Precedent → Details → **Enable tools**. Then `claude mcp add --transport http precedent https://mcp.atlassian.com/forge/fd902470-28c1-4525-b50e-6206031739cc` and run `/mcp` to sign in.
 
 ## Links
 - Demo video: [YouTube, public, under 5 minutes]
-- Code: [GitHub repo]
+- Code: https://github.com/matttpark26-a11y/precedent-codegeist
 
 ---
 

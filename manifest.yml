@@ -167,6 +167,16 @@ modules:
       title: Precedent
       icon: resource:static;precedent-icon.svg
 
+  jira:issueContext:
+    - key: precedent-context
+      resource: panel
+      resolver:
+        function: resolver
+      render: native
+      title: Precedent
+      label: Precedent
+      icon: resource:static;precedent-icon.svg
+
   jira:globalPage:
     - key: precedent-log
       resource: log

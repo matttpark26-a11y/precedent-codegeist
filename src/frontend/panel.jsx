@@ -82,7 +82,7 @@ function App() {
       {mode && mode.supersede ? (
         <Stack space="space.100">
           <Text><Strong>Supersede {mode.supersede.id}</Strong>: the old decision stays in the record, marked superseded.</Text>
-          <DecisionForm saveLabel="Supersede" showKind={false}
+          <DecisionForm saveLabel="Supersede" showKind={false} initial={{ statement: mode.supersede.statement }}
             onCancel={() => setMode(null)}
             onSave={(f) => act('supersede', { decisionId: mode.supersede.id, statement: f.statement, rationale: f.rationale })} />
         </Stack>

@@ -140,3 +140,14 @@ test('Teamwork Graph document matches the SDK shape', () => {
   assert.equal(o.url, 'https://acme.atlassian.net/browse/BILL-1');
   assert.equal(o.permissions[0].accessControls[0].principals[0].type, 'ATLASSIAN_WORKSPACE');
 });
+
+test('an issue is never warned against a decision made on that same issue', async () => {
+  const issues = {
+    'WEB-1': { id: '1', key: 'WEB-1', summary: 'Browser support policy for the customer portal', description: 'IE11 is 0.08% of portal sessions.', labels: [], links: [] },
+    'WEB-2': { id: '2', key: 'WEB-2', summary: 'Add IE11 polyfills to the customer portal', description: '', labels: [], links: [] },
+  };
+  const { service } = setup(issues);
+  await service.ingest({ text: "DECISION: We won't support IE11 in the customer portal", issueKey: 'WEB-1' });
+  assert.equal((await service.check({ issueKey: 'WEB-1' })).conflicts.length, 0);
+  assert.equal((await service.check({ issueKey: 'WEB-2' })).conflicts.length, 1);
+});
