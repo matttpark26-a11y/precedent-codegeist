@@ -1,0 +1,258 @@
+modules:
+  rovo:agent:
+    - key: precedent-agent
+      name: Precedent
+      description: Knows what your team already decided, why, and when a new idea goes
+        against it.
+      icon: resource:static;precedent-icon.svg
+      prompt: resource:prompts;agent-prompt.txt
+      conversationStarters:
+        - Has the team already decided anything about this?
+        - Check this issue against past decisions
+        - Record a decision from this conversation
+        - What did we decide about our database?
+      actions:
+        - search-decisions
+        - check-proposal
+        - record-decision
+        - supersede-decision
+        - decision-history
+        - decision-brief
+
+  rovo:mcp:
+    - key: precedent-mcp
+      name: Precedent decisions
+      tools:
+        - search-decisions
+        - check-proposal
+        - record-decision
+        - supersede-decision
+        - decision-history
+        - decision-brief
+
+  action:
+    - key: search-decisions
+      name: Search team decisions
+      function: action-search
+      actionVerb: GET
+      description: "Search the team's decision record: what was decided or decided
+        against, why, by whom, on which issue. Use when asked if something was
+        already decided or why things are the way they are. Query \"recent\"
+        lists the latest."
+      inputs:
+        query:
+          title: Query
+          type: string
+          required: true
+          description: Words describing the topic, e.g. "billing database", "IE11
+            support", an issue key, or "recent".
+        includeSuperseded:
+          title: Include superseded
+          type: boolean
+          required: false
+          description: Also return decisions that were later replaced. Default false.
+
+    - key: check-proposal
+      name: Check against precedent
+      function: action-check
+      actionVerb: GET
+      description: "Check a proposal or Jira issue against recorded decisions. Returns
+        conflicts (reverses a decision or revives a rejected option), aligned
+        and related decisions. With no input, checks the current issue."
+      inputs:
+        proposal:
+          title: Proposal
+          type: string
+          required: false
+          description: The plan or idea in plain words, e.g. "Migrate billing to DynamoDB".
+        issueKey:
+          title: Issue key
+          type: string
+          required: false
+          description: A Jira issue key like PROJ-123 to check instead of free text.
+
+    - key: record-decision
+      name: Record a decision
+      function: action-record
+      actionVerb: CREATE
+      description: "Record a new team decision. Only use when the user clearly says a
+        decision was made and asks to record it. Write it as one clear sentence
+        and link the current Jira issue if there is one."
+      inputs:
+        statement:
+          title: Decision
+          type: string
+          required: true
+          description: One sentence, e.g. "Use Postgres over DynamoDB for the billing
+            service".
+        kind:
+          title: Kind
+          type: string
+          required: false
+          description: '"decided" (we will do X, the default) or "decided against" (we
+            will not do X).'
+        rationale:
+          title: Why
+          type: string
+          required: false
+          description: The reasoning, constraints or evidence behind the decision.
+        rejectedAlternatives:
+          title: Rejected alternatives
+          type: string
+          required: false
+          description: Comma-separated options that were considered and not chosen.
+        issueKey:
+          title: Issue key
+          type: string
+          required: false
+          description: Jira issue to link, e.g. PROJ-123. Defaults to the current issue.
+
+    - key: supersede-decision
+      name: Supersede a decision
+      function: action-supersede
+      actionVerb: UPDATE
+      description: "Replace a decision when the team changed its mind. The old one is
+        kept and marked superseded so history stays visible. Only use when the
+        user confirms the change."
+      inputs:
+        decisionId:
+          title: Decision ID
+          type: string
+          required: true
+          description: The ID of the decision being replaced, like D-1A2B3C.
+        statement:
+          title: New decision
+          type: string
+          required: true
+          description: The new decision in one sentence.
+        rationale:
+          title: Why it changed
+          type: string
+          required: false
+          description: What changed since the original decision.
+
+    - key: decision-history
+      name: Decision history
+      function: action-history
+      actionVerb: GET
+      description: Show how a decision evolved, from the first version to the current
+        one (the supersede chain).
+      inputs:
+        decisionId:
+          title: Decision ID
+          type: string
+          required: true
+          description: Any decision ID in the chain, like D-1A2B3C.
+
+    - key: decision-brief
+      name: Decision brief for an issue
+      function: action-brief
+      actionVerb: GET
+      description: "Context pack for a Jira issue: decisions on it and on linked
+        issues, precedent it conflicts or aligns with, and linked pull requests
+        from the Teamwork Graph. Use when starting work on an issue."
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: false
+          description: Jira issue key like PROJ-123. Defaults to the current issue.
+
+  jira:issuePanel:
+    - key: precedent-panel
+      resource: panel
+      resolver:
+        function: resolver
+      render: native
+      title: Precedent
+      icon: resource:static;precedent-icon.svg
+
+  jira:globalPage:
+    - key: precedent-log
+      resource: log
+      resolver:
+        function: resolver
+      render: native
+      title: Decision Log
+      icon: resource:static;precedent-icon.svg
+
+  trigger:
+    - key: comment-trigger
+      function: on-comment
+      events:
+        - avi:jira:commented:issue
+      filter:
+        ignoreSelf: true
+    - key: created-trigger
+      function: on-created
+      events:
+        - avi:jira:created:issue
+      filter:
+        ignoreSelf: true
+
+  graph:connector:
+    - key: precedent-decisions
+      name: Precedent decisions
+      icons:
+        light: https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2696.svg
+        dark: https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2696.svg
+      objectTypes:
+        - atlassian:document
+      capabilities:
+        replicatesPermissions: false
+        syncFidelity: upsert
+        supportsIncrementalSync: true
+      datasource:
+        onConnectionChange:
+          function: on-connection-change
+
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: action-search
+      handler: index.searchDecisions
+    - key: action-check
+      handler: index.checkProposal
+    - key: action-record
+      handler: index.recordDecision
+    - key: action-supersede
+      handler: index.supersedeDecision
+    - key: action-history
+      handler: index.decisionHistory
+    - key: action-brief
+      handler: index.decisionBrief
+    - key: on-comment
+      handler: index.onIssueCommented
+    - key: on-created
+      handler: index.onIssueCreated
+    - key: on-connection-change
+      handler: index.onConnectionChange
+
+resources:
+  - key: panel
+    path: src/frontend/panel.jsx
+  - key: log
+    path: src/frontend/log.jsx
+  - key: static
+    path: static
+  - key: prompts
+    path: prompts
+
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+    - storage:app
+    - write:object:jira
+    - read:object:jira
+    - delete:object:jira
+    - read:graph:issue:jira
+    - read:graph:pull-request:external
+
+app:
+  id: ari:cloud:ecosystem::app/fd902470-28c1-4525-b50e-6206031739cc
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
