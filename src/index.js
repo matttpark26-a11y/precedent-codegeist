@@ -107,15 +107,21 @@ resolver.define('history', async (req) => ui(req).service.history({ decisionId: 
 
 resolver.define('check', async (req) => ui(req).service.check({ proposal: req.payload?.proposal }));
 
+resolver.define('resetDemo', async (req) => {
+  if (String(req.context?.environmentType || '').toUpperCase() !== 'DEVELOPMENT') throw new Error('Reset is only available in development.');
+  const { store } = ui(req);
+  return { removed: await store.clearAll() };
+});
+
 resolver.define('settings', async (req) => {
   const { store } = ui(req);
   const current = (await store.getMeta('settings')) || { autoComment: true };
   if (req.payload && 'autoComment' in req.payload) {
     const next = { ...current, autoComment: !!req.payload.autoComment };
     await store.setMeta('settings', next);
-    return { ...next, graphConnected: !!(await store.getMeta('twgConnection')) };
+    return { ...next, graphConnected: !!(await store.getMeta('twgConnection')), dev: String(req.context?.environmentType || '').toUpperCase() === 'DEVELOPMENT' };
   }
-  return { ...current, graphConnected: !!(await store.getMeta('twgConnection')) };
+  return { ...current, graphConnected: !!(await store.getMeta('twgConnection')), dev: String(req.context?.environmentType || '').toUpperCase() === 'DEVELOPMENT' };
 });
 
 // ---------- Demo data (Settings tab) ----------

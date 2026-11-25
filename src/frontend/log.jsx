@@ -178,6 +178,12 @@ function Settings() {
       <Stack space="space.100">
         <Heading size="xsmall">Try it with demo data</Heading>
         <DemoData />
+        {s.dev ? (
+          <Inline space="space.100" alignBlock="center">
+            <Button appearance="subtle" onClick={async () => { const r = await invoke('resetDemo'); setS({ ...s, resetNote: `Removed ${r.removed} decisions.` }); }}>Reset all decisions (development only)</Button>
+            {s.resetNote ? <Text>{s.resetNote}</Text> : null}
+          </Inline>
+        ) : null}
       </Stack>
       <Stack space="space.100">
         <Heading size="xsmall">Capturing decisions</Heading>

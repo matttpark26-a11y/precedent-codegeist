@@ -59,8 +59,8 @@ Important: an app submitted to the Marketplace **can no longer be shared by inst
 6. Click **Submit**. You can still edit until the deadline.
 
 ## Checklist
-- [ ] BILL demo project + demo data loaded
-- [ ] Video recorded, under 5 min, public on YouTube
+- [x] BILL demo project + demo data loaded
+- [x] Video made: media/Precedent_Codegeist_2026_demo.mp4 (2:53). Upload to YouTube as Public
 - [ ] Install link regenerated after the final deploy
 - [ ] (Optional) Marketplace copy submitted, review ticket link saved
 - [ ] (Optional) Rovo agent shot, if Rovo Chat is working

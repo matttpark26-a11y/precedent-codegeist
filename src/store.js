@@ -136,7 +136,14 @@ export function createStore(kv, { now = () => new Date().toISOString() } = {}) {
   async function getMeta(name) { return kv.get('meta:' + name); }
   async function setMeta(name, value) { return kv.set('meta:' + name, value); }
 
-  return { all, get, create, update, confirm, dismiss, linkIssue, supersede, chain, findDuplicate, getMeta, setMeta };
+  // Development-only: wipe every decision (used to reset demo recordings).
+  async function clearAll() {
+    const rows = await kv.list(PREFIX);
+    for (const r of rows) await kv.delete(r.key);
+    return rows.length;
+  }
+
+  return { clearAll, all, get, create, update, confirm, dismiss, linkIssue, supersede, chain, findDuplicate, getMeta, setMeta };
 }
 
 export function memoryKv() {
