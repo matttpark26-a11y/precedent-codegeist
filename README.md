@@ -4,6 +4,12 @@
 
 Teams keep re-arguing settled questions. The reason something is the way it is lives in a Jira comment from eight months ago, and new tickets quietly reverse old decisions. Precedent captures decisions where they're made, shows them where work happens, and warns when new work goes against them.
 
+## Install Precedent on your Jira site
+
+**[Click here to install Precedent](https://developer.atlassian.com/console/install/fd902470-28c1-4525-b50e-6206031739cc?signature=AYABeCSZZUmeUYb6Ug4M5IylHiQAAAADAAdhd3Mta21zAEthcm46YXdzOmttczp1cy13ZXN0LTI6NzA5NTg3ODM1MjQzOmtleS83MDVlZDY3MC1mNTdjLTQxYjUtOWY5Yi1lM2YyZGNjMTQ2ZTcAuAECAQB4CxqLTo9l4lqXuFjNim1xJM%2Bp%2F3TVP9xHS2BrU5DRRucBmjurZiFADPMMuYpjBdIfXwAAAH4wfAYJKoZIhvcNAQcGoG8wbQIBADBoBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDIUjb8Ak11zjOZK62QIBEIA71VE2TpHwa2ge5C9KI%2Bn%2BBHtvu%2BSVw9fUZAGp2iqn9BFUvwDrLYZ6KiuAk1EEA1H1I6EDZiK7qMMZlm8AB2F3cy1rbXMAS2Fybjphd3M6a21zOmV1LXdlc3QtMTo3MDk1ODc4MzUyNDM6a2V5LzQ2MzBjZTZiLTAwYzMtNGRlMi04NzdiLTYyN2UyMDYwZTVjYwC4AQICAHi9bVMAkme4qVQX1fQHo6ePw3H40A7cGfz7yrmSfBWMXgH7BMqIjsFJ2W%2BSrPhMTf1uAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMPfO0J9C5umJen9suAgEQgDscwuMtGibdQ5PlQSwYWBvysHO3FzASa6lkQu3CInb8fqNxCNs6X0iUAPSdpY6HbPJUuBgqQ1Eo9lmSyQAHYXdzLWttcwBLYXJuOmF3czprbXM6dXMtZWFzdC0xOjcwOTU4NzgzNTI0MzprZXkvNmMxMjBiYTAtNGNkNS00OTg1LWI4MmUtNDBhMDQ5NTJjYzU3ALgBAgIAeDYASx0XCjkny4iLV6vz%2BKtEGSGT6kdt0QRpkn6D%2FlVEAf8D40AnPKIYKyRou%2FiYH1YAAAB%2BMHwGCSqGSIb3DQEHBqBvMG0CAQAwaAYJKoZIhvcNAQcBMB4GCWCGSAFlAwQBLjARBAxKjEiBx7v3Tdop3I4CARCAO%2F51s28yZxgW7PB%2B8KYVIHVQxONcrjK07Zkxu6sBo%2FFVkQfR1Bl2d6UnXfwPkzP8Q1P%2BRzymmnNUUfxXAgAAAAAMAAAQAAAAAAAAAAAAAAAAAPTCEI%2BxR1MTbdFcX68QzEr%2F%2F%2F%2F%2FAAAAAQAAAAAAAAAAAAAAAQAAADJJFiJ93I51rRfY60mTH1MVoYFYGqVHyUrTVB%2Brsz0VNBAmLjMdQQO%2Fb3Tt2ZwL2fVWJQE1nZ7%2FWL2o56tCsmOA%2BgA%3D&product=jira)**, choose your Jira site, and approve. Then open **Apps → Decision Log → Settings → Load demo data** to see it work in about a minute.
+
+Demo video: https://youtu.be/U6trTce-bEs
+
 ## What it does
 
 | Surface | What you get |
