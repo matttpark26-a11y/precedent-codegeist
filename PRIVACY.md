@@ -12,4 +12,4 @@
 
 **AI:** Precedent itself makes no LLM calls. The Rovo agent runs on Atlassian Rovo under the customer's Rovo terms.
 
-Contact: open an issue on the project repository.
+Contact: open an issue at https://github.com/matttpark26-a11y/precedent-codegeist/issues
